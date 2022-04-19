@@ -25,7 +25,7 @@ export default function Row({ title, fetchUrl, isPoster }) {
               src={
                 isPoster
                   ? `${base_url}${movie.poster_path}`
-                  : `${base_url}${movie.backdrop_path}`
+                  : `${base_url}${movie?.backdrop_path}`
               }
               className="row__image"
               alt="movie?.title || movie?.name || movie?.original_title"
