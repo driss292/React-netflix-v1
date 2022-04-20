@@ -9,6 +9,11 @@ p {
   margin-bottom: 1rem;
 }
 
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
 button {
   border: none;
   background: none;
