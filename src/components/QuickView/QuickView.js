@@ -1,25 +1,32 @@
 import React from "react";
 import "./_QuickView.scss";
+import { Link } from "react-router-dom";
 import CancelIcon from "@mui/icons-material/Cancel";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
-export default function QuickView({ handleClickPopup, bannerStyle, movie }) {
+export default function QuickView({ popup, bannerStyle, movie, popupStatut }) {
   return (
-    <div className="quickView">
-      <div className="quickView__banner">
+    <div className={`quickView ${popupStatut && "open"}`}>
+      <div className="quickView__banner" style={bannerStyle}>
         <div className="quickView__content">
-          <h3 className="quickView__title">titre</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas non
-            ipsa tempora doloremque qui a voluptas sed libero voluptatem eaque!
-            Animi molestiae, ipsam quas vel doloribus quia culpa, iusto facere
-            temporibus natus facilis, dolores sequi ab. Ad obcaecati repudiandae
-            accusantium quisquam, deleniti totam quas architecto recusandae
-            eligendi eum, itaque nesciunt!
-          </p>
+          <h3 className="quickView__title">
+            {movie?.title || movie?.name || movie?.original_title}
+          </h3>
+          <p>{movie?.overview}</p>
         </div>
-        <button className="quickView__close" OnClick={handleClickPopup}>
-          <CancelIcon />
+        <div
+          className={`quickView__overlay ${popupStatut && "open"}`}
+          onClick={popup}
+        ></div>
+        <button className="quickView__close" onClick={popup}>
+          <CancelIcon fontSize="large" />
         </button>
+        <Link to={`/video/${movie?.id}`}>
+          <button className="quickView__play">
+            <PlayArrowIcon />
+            Lecture
+          </button>
+        </Link>
       </div>
     </div>
   );

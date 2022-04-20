@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import request from "../../config/request";
 import "./_Banner.scss";
@@ -8,6 +9,7 @@ import QuickView from "../QuickView/QuickView";
 
 export default function Banner() {
   const [movie, setMovie] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [popup, setPopup] = useState(false);
 
   const handleClickPopup = () => {
@@ -22,6 +24,7 @@ export default function Banner() {
           Math.ceil(Math.random() * response.data.results.length - 1)
         ]
       );
+      setIsLoading(false);
     };
     fetchData();
   }, []);
@@ -37,8 +40,10 @@ export default function Banner() {
     backgroundPosition: "centre center",
   };
 
-  console.log(popup);
-  return (
+  // console.log(popup);
+  return isLoading ? (
+    <p>chargement...</p>
+  ) : (
     <header className="banner" style={bannerStyle}>
       <div className="banner__content">
         <h1 className="banner__title">
@@ -48,9 +53,11 @@ export default function Banner() {
           {truncateText(movie?.overview, 100)}
         </p>
         <div className="banner__buttons">
-          <button className="banner__button banner__button--play">
-            <PlayArrowIcon /> Lecture
-          </button>
+          <Link to={`/video/${movie?.id}`}>
+            <button className="banner__button banner__button--play">
+              <PlayArrowIcon /> Lecture
+            </button>
+          </Link>
           <button className="banner__button" onClick={handleClickPopup}>
             <InfoIcon />
             Plus d'infos
@@ -60,7 +67,8 @@ export default function Banner() {
       <QuickView
         bannerStyle={bannerStyle}
         movie={movie}
-        handleClickPopup={handleClickPopup}
+        popup={handleClickPopup}
+        popupStatut={popup}
       />
     </header>
   );
